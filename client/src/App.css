@@ -76,6 +76,7 @@ body {
   border: black;
   border-radius: 12px;
   padding: 16px 32px;
+  margin: 20px;
 }
 
 .splashScreenButton:hover {
@@ -84,10 +85,33 @@ body {
   border: black;
 }
 
+.home-screen-icon:hover{
+  background-color: #CEE2EC;
+}
+
+#appBanner {
+  background-color:#fbff8f;
+}
+
+#home-screen-banner {
+  background-color: #e6e6e6;
+}
 
 #edit-toolbar {
   background-color: transparent;
   float: right;
+}
+
+.searchBar{
+  position: relative;
+  left: 200px;
+  top: 1px;
+}
+
+.sortBy{
+  color: black;
+  position: relative;
+  top: 7px;
 }
 
 .top5-button,
@@ -157,6 +181,13 @@ body {
 
 #add-list-button {
   float: left;
+}
+
+#add-list {
+  align-items: center;
+  font-size: 30px;
+  position: relative;
+  left: 40%;
 }
 
 #list-selector-list {

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import HomeScreen from './HomeScreen'
+import HomeScreen from './HomeScreen.js'
 import SplashScreen from './SplashScreen'
 import AuthContext from '../auth'
 
