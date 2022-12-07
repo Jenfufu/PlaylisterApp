@@ -19,10 +19,10 @@ export default function YoutubePlayer(){
   const [ vidPlaying, setVidPlaying ] = useState(false);
 
   let playlistName = "";
-  let name = "";
+  let title = "";
   let artist = "";
 
-  let names = [];
+  let titles = [];
   let artists = [];
   let playlist = [];
   let length = 0;
@@ -33,19 +33,12 @@ export default function YoutubePlayer(){
     length = store.currentList.songs.length;
     playlistName = store.currentList.name;
     for (let i = 0; i < length; i++){
-      // let name = store.currentList.songs[i].title;
-      // let artist = store.currentList.songs[i].artist;
-      // let id = store.currentList.songs[i].youTubeId;
-  
-      // names[i] = name;
-      // artists[i] = artist;
-      // playlist[i] = id;
-      names[i] = store.currentList.songs[i].title;
+      titles[i] = store.currentList.songs[i].title;
       artists[i] = store.currentList.songs[i].artist;
       playlist[i] = store.currentList.songs[i].youTubeId;
     }
     if (store.currentList.songs.length !== 0){
-      name = store.currentList.songs[songCount].title;
+      title = store.currentList.songs[songCount].title;
       artist = store.currentList.songs[songCount].artist;
     }
   }
@@ -53,11 +46,10 @@ export default function YoutubePlayer(){
   // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
   let currentSong = 0;
 
-  const playerOptions = {
-    height: '350',
+  const opts = {
+    height: '300',
     width: '100%',
     playerVars: {
-        // https://developers.google.com/youtube/player_parameters
         autoplay: 0,
     },
   };
@@ -95,7 +87,8 @@ export default function YoutubePlayer(){
     setSongCount(songCount + 1);
   }
 
-  function decrementSong() {
+  // THIS FUNCTION DECREMENTS THE PLAYLIST SONG TO THE NEXT ONE (FOR PREVIOUS SONG BUTTON)
+  function decrSong() {
     currentSong--;
     currentSong = currentSong % playlist.length;
     setSongCount(songCount - 1);
@@ -137,7 +130,7 @@ export default function YoutubePlayer(){
   }
 
   function handlePrevious(event){
-    decrementSong();
+    decrSong();
     loadAndPlayCurrentSong(player);
   }
 
@@ -156,46 +149,26 @@ export default function YoutubePlayer(){
     loadAndPlayCurrentSong(player);
   }
 
-
   return(
-    <>
+    <div>
     <Youtube videoId={playlist[songCount]}
-        opts={playerOptions}
+        opts={opts}
         onReady={onPlayerReady}
         onStateChange={onPlayerStateChange}/>
-    <Box sx={{width: '95%', height: '40%', backgroundColor: 'white', borderRadius: '10px', borderStyle:'solid', mx: 'auto'}}>
-      <Typography variant = "h4" style={{textAlign: 'center'}}>
-        Now Playing
-      </Typography>
-      <Typography variant="h5">
-        Playlist: {playlistName}
-        <br/>
-      </Typography>
-      <Typography variant="h5">
-        Song #: {songCount + 1}
-        <br/>
-      </Typography>
-      <Typography variant="h5">
-        Title: {name}
-        <br/>
-      </Typography>
-      <Typography variant="h5">
-        Artist: {artist}
-      </Typography>
-      <Box sx={{height: '20%', backgroundColor: '#ACC8D5', borderRadius: '10px', textAlign:'center', mx: '5%', my: '2%', borderStyle: 'solid', borderWidth: '2px', boxShadow: '1px 3px 3px pink'}}>
-        <IconButton onClick = {handlePrevious} sx = {{color: 'black'}} disabled = {songCount === 0}>
-          <FastRewindIcon/>
-        </IconButton>
-        <IconButton onClick = {handleStop} sx = {{color: 'black'}} disabled = {vidPlaying === false}>
-          <StopIcon/>
-        </IconButton>
+    <Box sx={{width: '95%', height: '40%', backgroundColor: 'white', borderRadius: '10px', border: 1, mx: 'auto'}}>
+      <Typography variant = "h5" style={{textAlign: 'center'}}> Now Playing</Typography>
+      <Typography variant="body1"> Playlist: {playlistName}<br/></Typography>
+      <Typography variant="body1">Song #: {songCount + 1}<br/></Typography>
+      <Typography variant="body1">Title: {title}<br/></Typography>
+      <Typography variant="body1">Artist: {artist}</Typography>
+      <Box sx={{height: '20%', backgroundColor: '#ACC8D5', borderRadius: '10px', textAlign:'center', mx: '5%', my: '2%', border:1, borderWidth: '2px', boxShadow: '1px 3px 3px pink'}}>
+        <IconButton onClick = {handlePrevious} sx = {{color: 'black'}} disabled = {songCount === 0}><FastRewindIcon/></IconButton>
+        <IconButton onClick = {handleStop} sx = {{color: 'black'}} disabled = {vidPlaying === false}><StopIcon/></IconButton>
         <IconButton onClick = {handlePlay} sx = {{color: 'black'}} disabled = {vidPlaying === true || store.currentList === null || store.currentList.songs.length === 0}>
           <PlayArrowIcon/>
         </IconButton>
-        <IconButton onClick = {handleSkip} sx = {{color: 'black'}} disabled = {songCount + 1 >= length}>
-          <FastForwardIcon/>
-        </IconButton>
+        <IconButton onClick = {handleSkip} sx = {{color: 'black'}} disabled = {songCount + 1 >= length}><FastForwardIcon/></IconButton>
       </Box>
     </Box>
-    </>);
+    </div>);
 }

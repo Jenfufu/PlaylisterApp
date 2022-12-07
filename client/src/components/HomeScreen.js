@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
+import MUIEditSongModal from './MUIEditSongModal'
 
 import AddIcon from '@mui/icons-material/Add';
 import AppBar from '@mui/material/AppBar';
@@ -45,6 +47,16 @@ const HomeScreen = () => {
     const handleSortMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    function handlePlayer(){
+        setPlayerOpen(true)
+    };
+
+    function handleComments(){
+        setPlayerOpen(false)
+    };
+
+
     let listCard = "";
     const homeScreenMenu = (
         <Menu
@@ -70,7 +82,7 @@ const HomeScreen = () => {
     );
     if (store) {
         listCard = 
-            <List sx={{borderRadius: 5, bgcolor: '#C9EEFF', mb:"15px"}} >
+            <List sx={{borderRadius: 5, bgcolor: '#C9EEFF'}} >
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -110,18 +122,18 @@ const HomeScreen = () => {
                 listCard
             }
             <MUIDeleteModal />
+            <MUIRemoveSongModal />
+            <MUIEditSongModal />
         </Box>
         <Box id="player-comments">
-            <Button id="player-button" variant="outlined">Player</Button>
-            <Button id="comments-button" variant="outlined">Comments</Button>
-            <CommentsSection></CommentsSection>
+            <Box id="player-comments-buttons">
+            <Button id="player-button" variant="outlined" onClick={handlePlayer}>Player</Button>
+            <Button id="comments-button" variant="outlined" onClick={handleComments}>Comments</Button>
+            </Box>
+            {isPlayerOpen? <YoutubePlayer/>: <CommentsSection/>}
         </Box>
         <div id = "add-list">
-            <input
-                type = "button"
-                id = "add-list-button"
-                onClick = {handleCreateNewList}
-                value="+" />
+            <IconButton onClick={handleCreateNewList}><AddIcon /></IconButton> 
             Your Lists
         </div>
     </Box>

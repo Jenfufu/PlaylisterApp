@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import GlobalStoreContext from '../store';
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -19,9 +19,19 @@ const style = {
 
 export default function MUIEditSongModal() {
     const { store } = useContext(GlobalStoreContext);
-    const [ title, setTitle ] = useState(store.currentSong.title);
-    const [ artist, setArtist ] = useState(store.currentSong.artist);
-    const [ youTubeId, setYouTubeId ] = useState(store.currentSong.youTubeId);
+    const [ title, setTitle ] = useState("");
+    const [ artist, setArtist ] = useState("")
+    const [ youTubeId, setYouTubeId ] = useState("");
+
+    useEffect(() => {
+
+        if(store.currentSong) {
+            setTitle(store.currentSong.title)
+            setArtist(store.currentSong.artist)
+            setYouTubeId(store.currentSong.youTubeId)
+        }
+
+    }, [store.currentSong])
 
     function handleConfirmEditSong() {
         let newSongData = {

@@ -15,7 +15,11 @@ import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubl
 import { Button } from '@mui/material';
 import SongCard from './SongCard.js'
 import List from '@mui/material/List';
-import WorkspaceScreen from './WorkspaceScreen';
+import YoutubePlayer from './YouTubePlayer';
+import { borders } from '@mui/system';
+import MUIEditSongModal from './MUIEditSongModal';
+import MUIRemoveSongModal from './MUIRemoveSongModal';
+
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -34,6 +38,7 @@ function ListCard(props) {
     store.history = useHistory();
 
     function handleLoadList(event, id) {
+        event.stopPropagation();
         console.log("handleLoadList for " + id);
         if (!event.target.disabled) {
             let _id = event.target.id;
@@ -91,6 +96,17 @@ function ListCard(props) {
     function handleRedo() {
         store.redo();
     }
+    function handleLoadPlayer(event, id) {
+        
+    }
+
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -107,8 +123,9 @@ function ListCard(props) {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '0px', display: 'flex', p: 1, marginBottom: '5px'}}
-            style={{ width: '100%', fontSize: '30pt' }}
+            sx={{ marginTop: '10px', display: 'flex', p: 1}}
+            style={{ width: '100%', fontSize: '20pt' }}
+            selected={true}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
             <Box sx={{ p: 1}}>
@@ -160,8 +177,12 @@ function ListCard(props) {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '0px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '30pt' }}
+            sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+            style={{ width: '100%', fontSize: '20pt' }}
+            button
+            onClick = {(event) => {
+                handleLoadPlayer(event, idNamePair._id)
+            }} 
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
             <Box sx={{ p: 1}}>

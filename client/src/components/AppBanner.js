@@ -96,7 +96,7 @@ export default function AppBanner() {
                     >
                         <img src={"images/PlaylisterLogoProvided.png"} width={100} height={30}></img>
                     </Typography>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box display="right">
                         <IconButton
                             size="large"
                             edge="end"
