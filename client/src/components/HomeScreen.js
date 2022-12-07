@@ -17,7 +17,10 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid';
 import SortIcon from '@mui/icons-material/Sort';
-import { Toolbar } from '@mui/material';
+import { Toolbar, Button } from '@mui/material';
+import Youtube from 'react-youtube';
+import YoutubePlayer from './YouTubePlayer';
+import CommentsSection from './CommentsSection';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -27,6 +30,7 @@ const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const [isPlayerOpen, setPlayerOpen] = useState(null);
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -66,7 +70,7 @@ const HomeScreen = () => {
     );
     if (store) {
         listCard = 
-            <List sx={{ width: '50%', left: '2%', top: '10%', borderRadius: 5, bgcolor: '#C9EEFF', mb:"15px"}}>
+            <List sx={{borderRadius: 5, bgcolor: '#C9EEFF', mb:"15px"}} >
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -101,15 +105,21 @@ const HomeScreen = () => {
         {
             homeScreenMenu
         }
-        <Box>
+        <Box id="list-selector-list">
             {
                 listCard
             }
             <MUIDeleteModal />
         </Box>
+        <Box id="player-comments">
+            <Button id="player-button" variant="outlined">Player</Button>
+            <Button id="comments-button" variant="outlined">Comments</Button>
+            <CommentsSection></CommentsSection>
+        </Box>
         <div id = "add-list">
             <input
                 type = "button"
+                id = "add-list-button"
                 onClick = {handleCreateNewList}
                 value="+" />
             Your Lists

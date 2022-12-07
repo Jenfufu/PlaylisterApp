@@ -1,12 +1,21 @@
 import { useContext, useState } from 'react'
 import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
+import { useHistory } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import KeyboardDoubleArrowDownOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowDownOutlined';
+import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
+import { Button } from '@mui/material';
+import SongCard from './SongCard.js'
+import List from '@mui/material/List';
+import WorkspaceScreen from './WorkspaceScreen';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -20,7 +29,9 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const { auth } = useContext(AuthContext);
     const [text, setText] = useState("");
+    const [open, setOpen] = useState(false);
     const { idNamePair, selected } = props;
+    store.history = useHistory();
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -68,6 +79,18 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+    function handlePlayer(event, id) {
+        store.markListForPlay(id);
+    }
+    function handleAddNewSong() {
+        store.addNewSong();
+    }
+    function handleUndo() {
+        store.undo();
+    }
+    function handleRedo() {
+        store.redo();
+    }
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -77,18 +100,80 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
-    let cardElement =
+    let cardElement = null;
+    if (store.currentList!==null && store.currentList._id === idNamePair._id){
+    cardElement =
+    <div>
+        <ListItem
+            id={idNamePair._id}
+            key={idNamePair._id}
+            sx={{ marginTop: '0px', display: 'flex', p: 1, marginBottom: '5px'}}
+            style={{ width: '100%', fontSize: '30pt' }}
+        >
+            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+            <Box sx={{ p: 1}}>
+                <IconButton>
+                    <ThumbUpOffAltIcon />
+                </IconButton>
+            </Box>
+            <Box sx={{ p: 1}}>
+                <IconButton>
+                    <ThumbDownOffAltIcon />
+                </IconButton>
+            </Box>
+            <Box sx={{ p: 1 }}>
+                <IconButton onClick={handleToggleEdit} aria-label='edit'>
+                    <EditIcon style={{fontSize:'30pt'}} />
+                </IconButton>
+            </Box>
+            <Box sx={{ p: 1 }}>
+                <IconButton onClick={store.closeCurrentList}>
+                    <KeyboardDoubleArrowUpOutlinedIcon />
+                </IconButton>
+            </Box>
+        </ListItem>
+        <Box>
+            <List>
+            {
+                store.currentList.songs.map((song, index) => (
+                    <SongCard
+                        id={'playlist-song-' + (index)}
+                        key={'playlist-song-' + (index)}
+                        index={index}
+                        song={song}
+
+                    />
+                ))
+            }
+            </List>
+            <Button variant="outlined" onClick={handleAddNewSong}>Add</Button>
+            <Button variant="outlined" onClick={handleUndo}>Undo</Button>
+            <Button variant="outlined" onClick={handleRedo}>Redo</Button>
+            <Button variant="outlined">Publish</Button>
+            <Button variant="outlined" onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>Delete</Button>
+            <Button variant="outlined">Duplicate</Button>
+         </Box>
+    </div>
+    }
+    else {
+        cardElement =
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
             sx={{ marginTop: '0px', display: 'flex', p: 1 }}
             style={{ width: '100%', fontSize: '30pt' }}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+            <Box sx={{ p: 1}}>
+                <IconButton>
+                    <ThumbUpOffAltIcon />
+                </IconButton>
+            </Box>
+            <Box sx={{ p: 1}}>
+                <IconButton>
+                    <ThumbDownOffAltIcon />
+                </IconButton>
+            </Box>
             <Box sx={{ p: 1 }}>
                 <IconButton onClick={handleToggleEdit} aria-label='edit'>
                     <EditIcon style={{fontSize:'30pt'}} />
@@ -96,12 +181,13 @@ function ListCard(props) {
             </Box>
             <Box sx={{ p: 1 }}>
                 <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'30pt'}} />
+                        handleLoadList(event, idNamePair._id)
+                    }}>
+                        <KeyboardDoubleArrowDownOutlinedIcon />
                 </IconButton>
             </Box>
         </ListItem>
+    }
 
     if (editActive) {
         cardElement =
