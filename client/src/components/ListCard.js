@@ -98,6 +98,10 @@ function ListCard(props) {
     function handleDuplicateList(event, id) {
         store.duplicateList(id);
     }
+    function handlePublish(event, id) {
+        console.log("at handle publish")
+        store.publishPlaylist(id);
+    }
 
     let modalJSX = "";
     if (store.isEditSongModalOpen()) {
@@ -164,7 +168,7 @@ function ListCard(props) {
             <Button variant="outlined" onClick={handleAddNewSong}>Add</Button>
             <Button variant="outlined" onClick={handleUndo}>Undo</Button>
             <Button variant="outlined" onClick={handleRedo}>Redo</Button>
-            <Button variant="outlined">Publish</Button>
+            <Button variant="outlined" onClick={(event) => {handlePublish(event, idNamePair._id)}}>Publish</Button>
             <Button variant="outlined" onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>Delete</Button>
             <Button variant="outlined" onClick={(event) => {handleDuplicateList(event, idNamePair._id)}}>Duplicate</Button>
          </Box>

@@ -214,6 +214,11 @@ body {
 
 }
 
+#comment-box {
+  position: absolute;
+  top: 50%
+}
+
 #add-list {
   align-items: center;
   font-size: 30px;
@@ -240,6 +245,24 @@ body {
   float: right;
 }
 
+#comment-box {
+  position: absolute;
+  top: 30%;
+  height: 60%;
+  overflow: scroll;
+}
+
+.comment-card {
+  margin: 5px;
+  padding: 5px;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: thin;
+  background-color: wheat;
+  position: relative;
+  bottom: 60%
+}
+
 .list-card,
 .selected-list-card,
 .unselected-list-card {
@@ -248,6 +271,8 @@ body {
   padding: 20px;
   border-radius: 25px;
 }
+
+
 
 .list-card:aria-disabled,
 .list-card[aria-disabled] {

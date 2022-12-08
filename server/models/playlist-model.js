@@ -10,7 +10,7 @@ const playlistSchema = new Schema(
     {
         name: { type: String, required: true },
         ownerEmail: { type: String, required: true },
-        published: { type: Boolean, required: false },
+        published: { type: Boolean, default: false, required: false },
         likes: {type: Number, required: false},
         dislikes: {type: Number, required: false},
         plays: {type: Number, required: false},
