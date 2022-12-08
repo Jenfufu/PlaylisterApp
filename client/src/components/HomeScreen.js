@@ -32,7 +32,7 @@ const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
-    const [isPlayerOpen, setPlayerOpen] = useState(null);
+    const [isPlayerOpen, setPlayerOpen] = useState(true);
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -126,7 +126,7 @@ const HomeScreen = () => {
             <MUIEditSongModal />
         </Box>
         <Box id="player-comments">
-            <Box id="player-comments-buttons">
+            <Box id="player-comments-buttons" sx={{ flexGrow: 1 }}>
             <Button id="player-button" variant="outlined" onClick={handlePlayer}>Player</Button>
             <Button id="comments-button" variant="outlined" onClick={handleComments}>Comments</Button>
             </Box>

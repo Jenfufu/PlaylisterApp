@@ -29,17 +29,17 @@ export default function YoutubePlayer(){
 
   let player;
 
-  if (store.currentList && store.currentList.songs){
-    length = store.currentList.songs.length;
-    playlistName = store.currentList.name;
+  if (store.listToPlay){
+    length = store.listToPlay.songs.length;
+    playlistName = store.listToPlay.name;
     for (let i = 0; i < length; i++){
-      titles[i] = store.currentList.songs[i].title;
-      artists[i] = store.currentList.songs[i].artist;
-      playlist[i] = store.currentList.songs[i].youTubeId;
+      titles[i] = store.listToPlay.songs[i].title;
+      artists[i] = store.listToPlay.songs[i].artist;
+      playlist[i] = store.listToPlay.songs[i].youTubeId;
     }
-    if (store.currentList.songs.length !== 0){
-      title = store.currentList.songs[songCount].title;
-      artist = store.currentList.songs[songCount].artist;
+    if (store.listToPlay.songs.length !== 0){
+      title = store.listToPlay.songs[songCount].title;
+      artist = store.listToPlay.songs[songCount].artist;
     }
   }
 
@@ -75,7 +75,7 @@ export default function YoutubePlayer(){
     console.log(song);
 
     if (player){
-      player.loadVideoById(song);
+      player.cueVideoById(song);
       player.playVideo();
     }
   }
@@ -150,7 +150,7 @@ export default function YoutubePlayer(){
   }
 
   return(
-    <div>
+    <div id="YouTubePlayer">
     <Youtube videoId={playlist[songCount]}
         opts={opts}
         onReady={onPlayerReady}
@@ -161,12 +161,10 @@ export default function YoutubePlayer(){
       <Typography variant="body1">Song #: {songCount + 1}<br/></Typography>
       <Typography variant="body1">Title: {title}<br/></Typography>
       <Typography variant="body1">Artist: {artist}</Typography>
-      <Box sx={{height: '20%', backgroundColor: '#ACC8D5', borderRadius: '10px', textAlign:'center', mx: '5%', my: '2%', border:1, borderWidth: '2px', boxShadow: '1px 3px 3px pink'}}>
+      <Box sx={{height: '15%', backgroundColor: '#ACC8D5', borderRadius: '10px', textAlign:'center', mx: '5%', my: '2%', border:1, borderWidth: '2px', boxShadow: '1px 3px 3px pink'}}>
         <IconButton onClick = {handlePrevious} sx = {{color: 'black'}} disabled = {songCount === 0}><FastRewindIcon/></IconButton>
-        <IconButton onClick = {handleStop} sx = {{color: 'black'}} disabled = {vidPlaying === false}><StopIcon/></IconButton>
-        <IconButton onClick = {handlePlay} sx = {{color: 'black'}} disabled = {vidPlaying === true || store.currentList === null || store.currentList.songs.length === 0}>
-          <PlayArrowIcon/>
-        </IconButton>
+        <IconButton onClick = {handleStop} sx = {{color: 'black'}} ><StopIcon/></IconButton>
+        <IconButton onClick = {handlePlay} sx = {{color: 'black'}}><PlayArrowIcon/></IconButton>
         <IconButton onClick = {handleSkip} sx = {{color: 'black'}} disabled = {songCount + 1 >= length}><FastForwardIcon/></IconButton>
       </Box>
     </Box>

@@ -197,14 +197,21 @@ body {
 
 #player-button {
   position: absolute;
-  top: 22%;
-  left: 55%;
+  top: 20%;
+  left: 52%;
 }
 
 #comments-button {
   position: absolute;
-  top: 22%;
-  left: 62.5%;
+  top: 20%;
+  left: 59.5%;
+}
+
+#YouTubePlayer {
+  width: 40%;
+  position: absolute;
+  top: 28%;
+
 }
 
 #add-list {

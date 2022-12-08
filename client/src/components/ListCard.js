@@ -12,11 +12,10 @@ import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import KeyboardDoubleArrowDownOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowDownOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
-import { Button } from '@mui/material';
+import { Button, MenuItem } from '@mui/material';
 import SongCard from './SongCard.js'
 import List from '@mui/material/List';
 import YoutubePlayer from './YouTubePlayer';
-import { borders } from '@mui/system';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
 
@@ -84,9 +83,6 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-    function handlePlayer(event, id) {
-        store.markListForPlay(id);
-    }
     function handleAddNewSong() {
         store.addNewSong();
     }
@@ -97,7 +93,10 @@ function ListCard(props) {
         store.redo();
     }
     function handleLoadPlayer(event, id) {
-        
+        store.setListToPlay(id);
+    }
+    function handleDuplicateList(event, id) {
+        store.duplicateList(id);
     }
 
     let modalJSX = "";
@@ -125,7 +124,6 @@ function ListCard(props) {
             key={idNamePair._id}
             sx={{ marginTop: '10px', display: 'flex', p: 1}}
             style={{ width: '100%', fontSize: '20pt' }}
-            selected={true}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
             <Box sx={{ p: 1}}>
@@ -168,7 +166,7 @@ function ListCard(props) {
             <Button variant="outlined" onClick={handleRedo}>Redo</Button>
             <Button variant="outlined">Publish</Button>
             <Button variant="outlined" onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>Delete</Button>
-            <Button variant="outlined">Duplicate</Button>
+            <Button variant="outlined" onClick={(event) => {handleDuplicateList(event, idNamePair._id)}}>Duplicate</Button>
          </Box>
     </div>
     }
