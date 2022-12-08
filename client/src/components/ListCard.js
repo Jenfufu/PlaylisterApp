@@ -12,7 +12,7 @@ import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import KeyboardDoubleArrowDownOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowDownOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
-import { Button, MenuItem } from '@mui/material';
+import { Button, MenuItem, Typography } from '@mui/material';
 import SongCard from './SongCard.js'
 import List from '@mui/material/List';
 import YoutubePlayer from './YouTubePlayer';
@@ -122,7 +122,7 @@ function ListCard(props) {
     let cardElement = null;
     if (store.currentList!==null && store.currentList._id === idNamePair._id){
     cardElement =
-    <div>
+    <Box>
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
@@ -137,7 +137,7 @@ function ListCard(props) {
             </Box>
             <Box sx={{ p: 1}}>
                 <IconButton>
-                    <ThumbDownOffAltIcon />
+                    <ThumbDownOffAltIcon /> 
                 </IconButton>
             </Box>
             <Box sx={{ p: 1 }}>
@@ -172,7 +172,7 @@ function ListCard(props) {
             <Button variant="outlined" onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>Delete</Button>
             <Button variant="outlined" onClick={(event) => {handleDuplicateList(event, idNamePair._id)}}>Duplicate</Button>
          </Box>
-    </div>
+    </Box>
     }
     else {
         cardElement =
